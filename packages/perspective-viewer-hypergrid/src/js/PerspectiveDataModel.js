@@ -27,7 +27,7 @@ module.exports = require('datasaur-local').extend('PerspectiveDataModel', {
     getValue: function(x, y) {
         var row = this.data[y];
         return row ? row[x] : null;
-    },
+    },  
 
     fetchData: function(rectangles, callback) {
         if (this.clearCache) {
@@ -35,7 +35,8 @@ module.exports = require('datasaur-local').extend('PerspectiveDataModel', {
             this.lastSuccessfullyFetchedRects = false;
         }
 
-        fetchData.call(this, rectangles, callback);
+        if (typeof fetchData === "function")
+            fetchData.call(this, rectangles, callback);
     },
 
     // return true for all data fetched, false if any data missing

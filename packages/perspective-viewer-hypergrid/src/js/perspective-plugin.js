@@ -40,9 +40,14 @@ function setPSP(payload) {
             aliases = payload.configuration.columnAliases,
             col_header = aliases ? (aliases[col_name] || col_name) : col_name,
             type = payload.columnTypes[columnIndex];
-
+        
+        let dataColumnIndex = columnIndex;
+        if (payload.isTree){
+            dataColumnIndex = columnIndex - 1;
+        }
+    
         new_schema.push({
-            name: columnIndex.toString(),
+            name: dataColumnIndex.toString(),
             header: col_header,
             type: type === 'str' ? 'string' : type
         });
