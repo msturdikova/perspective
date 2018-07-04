@@ -18,6 +18,8 @@ const treeLineRendererPaint = require('./hypergrid-tree-cell-renderer').treeLine
 const psp2hypergrid = require('./psp-to-hypergrid');
 
 import {bindTemplate} from "@jpmorganchase/perspective-viewer/src/js/utils.js";
+import { FilterSubGrid } from "./hypergrid-filter-subgrid.js";
+import { FilterEditor } from "./hypergrid-filter-editor.js";
 
 const TEMPLATE = require('../html/hypergrid.html');
 
@@ -116,6 +118,7 @@ const light_theme_overrides = {
         enabled: true,
         backgroundColor: '#f6f6f6'
     },
+    subgrids: [ 'HeaderSubgrid', FilterSubGrid, 'data']
 };
 
 function generateGridProperties(overrides) {
