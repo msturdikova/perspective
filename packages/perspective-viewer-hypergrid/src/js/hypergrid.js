@@ -21,6 +21,7 @@ import {bindTemplate} from "@jpmorganchase/perspective-viewer/src/js/utils.js";
 import { FilterSubGrid } from "./hypergrid-filter-subgrid.js";
 import { FilterEditor } from "./hypergrid-filter-editor.js";
 
+const _FilterEditor = FilterEditor;
 const TEMPLATE = require('../html/hypergrid.html');
 
 import "../less/hypergrid.less";
@@ -204,6 +205,7 @@ bindTemplate(TEMPLATE)(class HypergridElement extends HTMLElement {
             grid_properties['hoverCellHighlight']['color'] = cell_hover.getPropertyValue('color');
 
             this.grid.addProperties(grid_properties);
+            this.grid.cellEditors.add( "Filter", _FilterEditor);
 
             // Add tree cell renderer
             this.grid.cellRenderers.add('TreeCell', Base.extend({ paint: treeLineRendererPaint }));
@@ -349,6 +351,27 @@ async function grid_create(div, view, task) {
         const base = range.start_row;
         rows.forEach((row, offset) => data[base + offset] = row);
     };
+
+    const filterGrid = this.hypergrid.behavior.subgrids.lookup["filter"];
+    filterGrid.filters = {};
+    let filters = JSON.parse(this.getAttribute('filters'));
+    filters = filters.length && filters.length > 0 ? filters.reduce((map, filter) => { map[filter[0]] = filter; return map; }, {}) : {};
+    this.hypergrid.behavior.columns.forEach(column => {
+        let header = column.header;
+        let filter = filters[header];
+        if (filter) {
+            filterGrid.filters[column.index] = filter;
+        }
+    });
+    const setFilterValue = filterGrid.setValue;
+    const viewer = this;
+    filterGrid.setValue = (x, y, value) => {
+        setFilterValue.call(filterGrid, x, y, value);
+        const filters = Object.values(filterGrid.filters);
+        viewer.setAttribute('filters', JSON.stringify(filters));
+    };
+
+
 
     perspectiveHypergridElement.set_data(json, hidden, schema, tschema, rowPivots);
     this.hypergrid.canvas.paintNow();
