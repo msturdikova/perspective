@@ -24,10 +24,12 @@ export const FilterSubGrid =  require('datasaur-local').extend('FilterSubGrid',{
         return this.showFilterRow ? 1:0;
     },
     getValue: function(x,y){
-        return this.filters[x] != undefined ? this.filters[x][2] + '' : '';
+        return this.filters[x] != undefined ? this.filters[x][1] + ' ' + this.filters[x][2] : '';
     },
     setValue: function(x,y,value){
         const column = this.grid.behavior.getActiveColumn(x);
+        const operator = value[0];
+        const operand = value[1];
 
         if (!value){
             delete this.filters[x];
@@ -35,23 +37,22 @@ export const FilterSubGrid =  require('datasaur-local').extend('FilterSubGrid',{
         }
 
         let type = column.type;
-        let op = perspective.FILTER_DEFAULTS[type];
         let val = undefined;
         switch (type) {
             case "float":
-                val = parseFloat(value);
+                val = parseFloat(operand);
                 break;
             case "integer":
-                val = parseInt(value);
+                val = parseInt(operand);
                 break;
             case "boolean":
-                val = value.toLowerCase().indexOf('true') > -1;
+                val = operand.toLowerCase().indexOf('true') > -1;
                 break;
             case "string":
             default:
-                val = value;
+                val = operand;
         }
-        const filter = [ column.header, op, val ];
+        const filter = [ column.header, operator, val ];
         this.filters[x] = filter;
     },
     getRow: function(y){
@@ -66,6 +67,7 @@ export const FilterSubGrid =  require('datasaur-local').extend('FilterSubGrid',{
     // Return the cell editor for a given (x,y) cell coordinate
     getCellEditorAt: function(x, y, declaredEditorName, cellEvent) {
         cellEvent.format = "";
+        cellEvent.filter = this.filters[x];
         return cellEvent.grid.cellEditors.create( 'Filter', cellEvent );
     }
 
