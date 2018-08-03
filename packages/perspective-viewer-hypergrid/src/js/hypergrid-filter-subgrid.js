@@ -31,7 +31,7 @@ export const FilterSubGrid =  require('datasaur-local').extend('FilterSubGrid',{
         const operator = value[0];
         const operand = value[1];
 
-        if (!value){
+        if (!value || !operand){
             delete this.filters[x];
             return;
         }

@@ -34,7 +34,6 @@ export const FilterEditor = CellEditor.extend('FilterEditor', {
         const type = options.columnProperties.type;
         this.initialValue = options.filter ? [options.filter[1],options.filter[2]] : [perspective.FILTER_DEFAULTS[type], ''];
         this.operator = this.el.querySelector('#editor-filter-operator');
-        //this.operator.textContent = '==';
         this.operand = this.el.querySelector('#editor-filter-operand');
         this.input = this.operand;
         this.errors = 0;
@@ -47,10 +46,7 @@ export const FilterEditor = CellEditor.extend('FilterEditor', {
         };
         this.operator.addEventListener('change', event => {
             this.operator.style.width = get_text_width(this.operator.value);
-            
         });
-
-        
         this.input.onfocus = (e) => {
             var target = e.target;
             this.el.style.outline = this.outline = this.outline || window.getComputedStyle(target).outline;
@@ -59,7 +55,6 @@ export const FilterEditor = CellEditor.extend('FilterEditor', {
         this.input.onblur = (e) => {
             this.el.style.outline = 0;
         };
-       
 
         switch (type) {
             case "float":
@@ -69,19 +64,16 @@ export const FilterEditor = CellEditor.extend('FilterEditor', {
                 ).join('');
                 break;
             case "boolean":
-               
                 this.operator.innerHTML = perspective.TYPE_FILTERS.boolean.map(agg => 
                     `<option value="${agg}">${agg}</option>`
                 ).join('');
                 break;
             case 'date':
-               
                 this.operator.innerHTML = perspective.TYPE_FILTERS.date.map(agg => 
                     `<option value="${agg}">${agg}</option>`
                 ).join('');
                 break;
             case "string":
-              
                 this.operator.innerHTML = perspective.TYPE_FILTERS.string.map(agg => 
                     `<option value="${agg}">${agg}</option>`
                 ).join('');
