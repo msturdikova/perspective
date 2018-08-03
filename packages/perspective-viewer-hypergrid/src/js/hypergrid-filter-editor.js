@@ -1,20 +1,8 @@
 
 const CellEditor = require('fin-hypergrid/src/cellEditors/CellEditor');
 import perspective from "@jpmorganchase/perspective";
+import {bindTemplate, get_text_width} from "@jpmorganchase/perspective-viewer/src/js/utils.js";
 
-
-function get_text_width(text, max = 0) {
-    let span = document.createElement('span');
-    // FIXME get these values form the stylesheet
-    span.style.visibility = 'hidden';
-    span.style.fontFamily = 'monospace';
-    span.style.fontSize = '12px';
-    span.innerHTML = text;
-    document.body.appendChild(span);
-    let width = `${Math.max(max, span.offsetWidth) + 20}px`;
-    document.body.removeChild(span);
-    return width;
-}
 
 /**
  * @constructor
@@ -25,7 +13,7 @@ export const FilterEditor = CellEditor.extend('FilterEditor', {
     template: '<div class="hypergrid-textfield">' +
                 '<div style="display:flex;flex-direction:row;overflow:hidden">' +
                     '<select id="editor-filter-operator" style="padding-right:5px;"></select>' +
-                    '<input id="editor-filter-operand" placeholder="Value" lang="{{locale}}" style="border-bottom: 1px solid gray; {{style}}"></input>'+
+                    '<input id="editor-filter-operand" placeholder="Value" lang="{{locale}}" style="{style}}"></input>'+
                 '</div>' +
             '</div>',
     
