@@ -11,11 +11,10 @@ import perspective from "@jpmorganchase/perspective";
 
 export const FilterSubGrid =  require('datasaur-local').extend('FilterSubGrid',{
     initialize: function(datasaur, options){
-        console.log( "initializing FilterSubGrid", datasaur, options);
         this.grid = options.grid;
         this.filters = {};
         this.showFilterRow = true;
-       
+
     },
     type: 'filter',
     format: 'string',
@@ -61,7 +60,7 @@ export const FilterSubGrid =  require('datasaur-local').extend('FilterSubGrid',{
     // Return the cell renderer
     getCell: function(config, rendererName) {
         
-        return config.grid.cellRenderers.get(rendererName);
+        return config.grid.cellRenderers.get("Filter");
     },
 
     // Return the cell editor for a given (x,y) cell coordinate

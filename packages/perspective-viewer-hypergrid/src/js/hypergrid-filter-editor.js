@@ -18,7 +18,6 @@ export const FilterEditor = CellEditor.extend('FilterEditor', {
             '</div>',
     
     initialize: function(grid, options) {
-        console.log( 'initializing filter editor', grid, options);
         const type = options.columnProperties.type;
         this.initialValue = options.filter ? [options.filter[1],options.filter[2]] : [perspective.FILTER_DEFAULTS[type], ''];
         this.operator = this.el.querySelector('#editor-filter-operator');

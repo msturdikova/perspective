@@ -13,15 +13,13 @@ const groupedHeaderPlugin = require('fin-hypergrid-grouped-header-plugin');
 
 const Range = require('./Range');
 const perspectivePlugin = require('./perspective-plugin');
+const filterPlugin = require( './hypergrid-filter-plugin');
 const PerspectiveDataModel = require('./PerspectiveDataModel');
 const treeLineRendererPaint = require('./hypergrid-tree-cell-renderer').treeLineRendererPaint;
 const psp2hypergrid = require('./psp-to-hypergrid');
 
 import {bindTemplate} from "@jpmorganchase/perspective-viewer/src/js/utils.js";
-import { FilterSubGrid } from "./hypergrid-filter-subgrid.js";
-import { FilterEditor } from "./hypergrid-filter-editor.js";
 
-const _FilterEditor = FilterEditor;
 const TEMPLATE = require('../html/hypergrid.html');
 
 import "../less/hypergrid.less";
@@ -118,8 +116,7 @@ const light_theme_overrides = {
     hoverRowHighlight: {
         enabled: true,
         backgroundColor: '#f6f6f6'
-    },
-    subgrids: [ 'HeaderSubgrid', FilterSubGrid, 'data']
+    }
 };
 
 function generateGridProperties(overrides) {
@@ -175,7 +172,8 @@ bindTemplate(TEMPLATE)(class HypergridElement extends HTMLElement {
                         halign: 'center', // center group labels
                         font: GROUP_LABEL_FONT
                     }]
-                }]
+                }],
+                filterPlugin
             ]);
 
             // Broken in fin-hypergrid-grouped-header 0.1.2
@@ -205,7 +203,6 @@ bindTemplate(TEMPLATE)(class HypergridElement extends HTMLElement {
             grid_properties['hoverCellHighlight']['color'] = cell_hover.getPropertyValue('color');
 
             this.grid.addProperties(grid_properties);
-            this.grid.cellEditors.add( "Filter", _FilterEditor);
 
             // Add tree cell renderer
             this.grid.cellRenderers.add('TreeCell', Base.extend({ paint: treeLineRendererPaint }));
