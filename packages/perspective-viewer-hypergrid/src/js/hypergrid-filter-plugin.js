@@ -6,13 +6,13 @@ var CLASS_NAME = 'Filter';
 
 var prototypeFilterRenderer = {
     /**
-     * @summary The grouped header paint function.
+     * @summary The filter paint function.
      * @desc This is the heart of the cell renderer.
      *
      * If you feel the urge to override this, you are on the wrong path! Write a new cell renderer instead.
      * @implements paintFunction
      * @default
-     * @memberOf GroupedHeader#
+     * @memberOf FilterRenderer#
      */
     paint: paintFilterCell,
 }
@@ -29,10 +29,6 @@ function installPlugin(grid, options) {
         throw new grid.HypergridError('Expected `options.CellRenderer` to be a constructor or a registered cell redenderer.');
     }
 
-    /**
-     * This is the cell renderer.
-     * @constructor
-     */
     var FilterRenderer = CellRenderer.extend(CLASS_NAME, prototypeFilterRenderer);
     grid.cellRenderers.add(FilterRenderer);
 

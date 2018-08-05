@@ -349,28 +349,18 @@ async function grid_create(div, view, task) {
         rows.forEach((row, offset) => data[base + offset] = row);
     };
 
+    perspectiveHypergridElement.set_data(json, hidden, schema, tschema, rowPivots);
+
     const filterGrid = this.hypergrid.behavior.subgrids.lookup["filter"];
-    filterGrid.filters = {};
-    let filters = JSON.parse(this.getAttribute('filters'));
-    filters = filters.length && filters.length > 0 ? filters.reduce((map, filter) => { map[filter[0]] = filter; return map; }, {}) : {};
-    this.hypergrid.behavior.columns.forEach(column => {
-        let header = column.header;
-        let filter = filters[header];
-        if (filter) {
-            filterGrid.filters[column.index] = filter;
-        }
-    });
+    filterGrid.setFilters(JSON.parse(this.getAttribute('filters')));
+
     const setFilterValue = filterGrid.setValue;
     const viewer = this;
     filterGrid.setValue = (x, y, value) => {
         setFilterValue.call(filterGrid, x, y, value);
-        const filters = Object.values(filterGrid.filters);
-        viewer.setAttribute('filters', JSON.stringify(filters));
+        viewer.setAttribute('filters', JSON.stringify(Object.values(filterGrid.filters)));
     };
 
-
-
-    perspectiveHypergridElement.set_data(json, hidden, schema, tschema, rowPivots);
     this.hypergrid.canvas.paintNow();
     let running = true;
     while (running) {

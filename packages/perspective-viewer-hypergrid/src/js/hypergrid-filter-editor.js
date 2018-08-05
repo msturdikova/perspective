@@ -24,11 +24,8 @@ export const FilterEditor = CellEditor.extend('FilterEditor', {
         this.operand = this.el.querySelector('#editor-filter-operand');
         this.input = this.operand;
         this.errors = 0;
-        this.el.onclick = function() {
-           
-        }.bind(this);
+        
         this.input.onclick = function(e) {
-            console.log( 'clicked operand'); 
             e.stopPropagation(); // ignore clicks in the text FIELD
         };
         this.operator.addEventListener('change', event => {
