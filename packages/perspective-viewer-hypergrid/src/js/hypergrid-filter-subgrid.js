@@ -12,7 +12,6 @@ import perspective from "@jpmorganchase/perspective";
 export const FilterSubGrid =  require('datasaur-local').extend('FilterSubGrid',{
     initialize: function(datasaur, options){
         this.grid = options.grid;
-        this.showFilterRow = true;
         this.filters = {};
     },
     type: 'filter',
@@ -23,7 +22,7 @@ export const FilterSubGrid =  require('datasaur-local').extend('FilterSubGrid',{
                 filters.reduce((map, filter) => { map[filter[0]] = filter; return map; }, {}) : {};
     },
     getRowCount: function(){
-        return this.showFilterRow ? 1:0;
+        return this.grid.properties.showFilterRow ? 1:0;
     },
     _getColumnHeader: function(x){
         const column = this.grid.behavior.getActiveColumn(x);
